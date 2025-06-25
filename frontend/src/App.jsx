@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
+import ChatWindow from './components/ChatWindow';
 
 function App() {
   const [data, setData] = useState(null);
@@ -13,14 +14,8 @@ function App() {
   }, []);
 
   return (
-    <div style={{ padding: 32 }}>
-      <h1>Vite + React + Express + Postgres</h1>
-      {error && <pre style={{ color: 'red' }}>{error.message}</pre>}
-      {data ? (
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-      ) : (
-        <p>Loading...</p>
-      )}
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <ChatWindow />
     </div>
   );
 }
