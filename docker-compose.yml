@@ -1,0 +1,34 @@
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      - POSTGRES_DB=appdb
+      - POSTGRES_USER=appuser
+      - POSTGRES_PASSWORD=apppassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  backend:
+    build: ./backend
+    command: npx nodemon index.js
+    environment:
+      - POSTGRES_URI=postgres://appuser:apppassword@postgres:5432/appdb
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./backend:/usr/src/app
+    depends_on:
+      - postgres
+    working_dir: /usr/src/app
+  # frontend:
+  #   build: ./frontend
+  #   command: npm run dev -- --host
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./frontend:/usr/src/app
+  #   working_dir: /usr/src/app
+volumes:
+  pgdata:
