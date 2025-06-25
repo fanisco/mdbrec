@@ -21,10 +21,12 @@ const ChatWindow = () => {
       });
       if (!res.ok) throw new Error('Network error');
       const data = await res.json();
-      if (!Array.isArray(data) || data.length === 0) {
-        setMessages((msgs) => [...msgs, { type: 'bot', error: 'No results found.' }]);
+      if (data.error) {
+        setMessages((msgs) => [...msgs, { type: 'bot', error: data.error }]);
+      } else if (Array.isArray(data.recommendations) && data.recommendations.length > 0) {
+        setMessages((msgs) => [...msgs, { type: 'bot', text: data.text, recommendations: data.recommendations }]);
       } else {
-        setMessages((msgs) => [...msgs, { type: 'bot', recommendations: data }]);
+        setMessages((msgs) => [...msgs, { type: 'bot', error: 'No results found.' }]);
       }
     } catch (err) {
       setMessages((msgs) => [...msgs, { type: 'bot', error: 'Failed to fetch recommendations.' }]);

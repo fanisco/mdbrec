@@ -19,7 +19,16 @@ const ChatMessage = ({ type, text, recommendations, error }) => {
       </div>
     );
   }
-  if (recommendations) {
+  if (text && text.trim() !== '') {
+    return (
+      <div className="flex justify-start">
+        <div className="bg-gray-100 px-4 py-2 rounded-lg max-w-xs">
+          {text}
+        </div>
+      </div>
+    );
+  }
+  if (recommendations && recommendations.length > 0) {
     return (
       <div className="flex justify-start">
         <div className="bg-gray-100 px-4 py-2 rounded-lg max-w-xs">
